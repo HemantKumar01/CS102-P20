@@ -14,8 +14,6 @@
 
 #include <stdio.h>
 #include <locale.h>
-#include <conio.h>
-// #include <curses.h>
 
 #define RESET "\x1B[0m"
 #define BOLD "\x1B[1m"

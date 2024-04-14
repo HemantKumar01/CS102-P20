@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "*.yrf": "json",
+    "*.rpx": "xml",
+    "ctype.h": "c",
+    "conio.h": "c"
+  }
+}

@@ -6,7 +6,7 @@ A collection of games written in C using raylib library. It includes games of al
 for compiling your code (for example test.c) run
 for windows
 ```
-gcc test.c -o my_game -L./raylib-5.0_win64_mingw-w64/lib -lraylib -lopengl32 -lgdi32 -lwinmm
+gcc pong.c -o pong -L./raylib-5.0_win64_mingw-w64/lib -lraylib -lopengl32 -lgdi32 -lwinmm
 ```
 
 for linux 
@@ -18,4 +18,3 @@ gcc test.c -o my_game -lraylib
 ### Changes to run it on linux
 
 1. Download linux version of raylib v5.0 https://github.com/raysan5/raylib/releases
-2. change conio.h with curses.h (you might need ncurses library).
