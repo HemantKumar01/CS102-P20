@@ -1,103 +1,134 @@
+#include "raylib.h"
 #include <stdio.h>
+#define BOARD_SIZE 3
 
-char box[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-
-void Board_creating();
-void Board_marking(int, char); // function prototyping
-int Check_win();
-int main()
+// Structure to represent the game board
+typedef struct
 {
-    int choice, player = 1, i;
-    char mark;
-    do
+    int cells[BOARD_SIZE][BOARD_SIZE]; // 0 for empty, 1 for X, 2 for O
+    int currentPlayer;                 // 1 for X, 2 for O
+    int gameOver;
+} GameBoard;
+
+// Initialize game board
+void InitGameBoard(GameBoard *board)
+{
+    for (int i = 0; i < BOARD_SIZE; i++)
     {
-        Board_creating(); // function call
-        player = (player % 2) ? 1 : 2;
-
-        printf("Player %d, enter a number: ", player);
-        scanf("%d", &choice);
-
-        mark = (player == 1) ? 'X' : 'O';
-        Board_marking(choice, mark);
-
-        i = Check_win();
-        player++;
-
-    } while (i == -1);
-
-    Board_creating(); // function call
-
-    if (i == 1)
-        printf("Player %d Won the game", --player);
-    else
-        printf("<------Match Tie------>");
-
-    return 0;
+        for (int j = 0; j < BOARD_SIZE; j++)
+        {
+            board->cells[i][j] = 0;
+        }
+    }
+    board->currentPlayer = 1; // X starts
+    board->gameOver = false;
 }
-void Board_creating() // function defination
+
+// Check if there is a winner
+bool CheckWinner(const GameBoard *board, int player)
 {
-    printf("\n\nTic Tac Toe\n\n");
-    printf("Player 1 (X) -- Player 2 (O)\n\n");
-
-    printf(" %c   | %c   | %c   \n", box[1], box[2], box[3]);
-
-    printf("-----|-----|----- \n");
-    printf(" %c   | %c   | %c   \n", box[4], box[5], box[6]);
-
-    printf("-----|-----|----- \n");
-    printf(" %c   | %c   | %c   \n", box[7], box[8], box[9]);
-    printf("\n");
-}
-void Board_marking(int choice, char mark) // function defination
-{
-    if (choice == 1 && box[1] == '1')
-        box[1] = mark;
-    else if (choice == 2 && box[2] == '2')
-        box[2] = mark;
-    else if (choice == 3 && box[3] == '3')
-        box[3] = mark;
-    else if (choice == 4 && box[4] == '4')
-        box[4] = mark;
-    else if (choice == 5 && box[5] == '5')
-        box[5] = mark;
-    else if (choice == 6 && box[6] == '6')
-        box[6] = mark;
-    else if (choice == 7 && box[7] == '7')
-        box[7] = mark;
-    else if (choice == 8 && box[8] == '8')
-        box[8] = mark;
-    else if (choice == 9 && box[9] == '9')
-        box[9] = mark;
-    else
+    // Check rows and columns
+    for (int i = 0; i < BOARD_SIZE; i++)
     {
-        printf("Invalid move");
+        if (board->cells[i][0] == player && board->cells[i][1] == player && board->cells[i][2] == player)
+            return true; // Rows
+        if (board->cells[0][i] == player && board->cells[1][i] == player && board->cells[2][i] == player)
+            return true; // Columns
+    }
+
+    // Check diagonals
+    if (board->cells[0][0] == player && board->cells[1][1] == player && board->cells[2][2] == player)
+        return true; // Diagonal
+    if (board->cells[0][2] == player && board->cells[1][1] == player && board->cells[2][0] == player)
+        return true; // Anti-Diagonal
+
+    return false;
+}
+
+// Draw game board
+void DrawGameBoard(const GameBoard *board)
+{
+    // Draw grid
+    for (int i = 1; i < BOARD_SIZE; i++)
+    {
+        DrawLine(i * GetScreenWidth() / BOARD_SIZE, 0, i * GetScreenWidth() / BOARD_SIZE, GetScreenHeight(), DARKGRAY);
+        DrawLine(0, i * GetScreenHeight() / BOARD_SIZE, GetScreenWidth(), i * GetScreenHeight() / BOARD_SIZE, DARKGRAY);
+    }
+
+    // Draw X's and O's
+    for (int i = 0; i < BOARD_SIZE; i++)
+    {
+        for (int j = 0; j < BOARD_SIZE; j++)
+        {
+            if (board->cells[i][j] == 1)
+            {
+                DrawText("X", i * GetScreenWidth() / BOARD_SIZE + 10, j * GetScreenHeight() / BOARD_SIZE + 10, 50, BLACK);
+            }
+            else if (board->cells[i][j] == 2)
+            {
+                DrawText("O", i * GetScreenWidth() / BOARD_SIZE + 10, j * GetScreenHeight() / BOARD_SIZE + 10, 50, BLACK);
+            }
+        }
     }
 }
 
-int Check_win() // function defination
+int main()
 {
-    if (box[1] == box[2] && box[2] == box[3])
-        return 1;
-    else if (box[4] == box[5] && box[5] == box[6])
-        return 1; // horizontal match
-    else if (box[7] == box[8] && box[8] == box[9])
-        return 1;
+    const int screenWidth = 600;
+    const int screenHeight = 600;
 
-    else if (box[1] == box[4] && box[4] == box[7])
-        return 1;
-    else if (box[2] == box[5] && box[5] == box[8]) // vertical match
-        return 1;
-    else if (box[3] == box[6] && box[6] == box[9])
-        return 1;
+    InitWindow(screenWidth, screenHeight, "Tic Tac Toe");
+    SetTargetFPS(60);
 
-    else if (box[1] == box[5] && box[5] == box[9])
-        return 1;
-    else if (box[3] == box[5] && box[5] == box[7]) // diagonal match
-        return 1;
+    GameBoard game;
+    InitGameBoard(&game);
 
-    else if (box[1] != '1' && box[2] != '2' && box[3] != '3' && box[4] != '4' && box[5] != '5' && box[6] != '6' && box[7] != '7' && box[8] != '8' && box[9] != '9') // no match
-        return 0;
+    while (!WindowShouldClose())
+    {
+        // Update
+        if (!game.gameOver)
+        {
+            // Draw
+            BeginDrawing();
+            ClearBackground(RAYWHITE);
+            DrawGameBoard(&game);
+            EndDrawing();
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+            {
+                int mouseX = GetMouseX();
+                int mouseY = GetMouseY();
 
-    else
-        return -1;
+                // Determine cell clicked
+                int cellX = mouseX / (screenWidth / BOARD_SIZE);
+                int cellY = mouseY / (screenHeight / BOARD_SIZE);
+
+                // Place the current player's mark if the cell is empty
+                if (game.cells[cellX][cellY] == 0)
+                {
+                    game.cells[cellX][cellY] = game.currentPlayer;
+
+                    // Check for winner
+                    if (CheckWinner(&game, game.currentPlayer))
+                    {
+                        game.gameOver = 1;
+                    }
+                    else
+                    {
+                        // Switch player
+                        game.currentPlayer = (game.currentPlayer == 1) ? 2 : 1;
+                    }
+                }
+            }
+        }
+        else
+        {
+            BeginDrawing();
+            ClearBackground(RAYWHITE);
+            DrawText(game.currentPlayer == 1 ? "Player 1 wins" : "Player 2 wins", 200, 200, 50, LIGHTGRAY);
+            EndDrawing();
+        }
+    }
+
+    CloseWindow();
+    return 0;
 }

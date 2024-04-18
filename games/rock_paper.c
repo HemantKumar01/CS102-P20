@@ -91,7 +91,7 @@ void rockPaperScissor()
     struct GameState game;
     game.userScore = 0;
     game.compScore = 0;
-
+    srand(time(NULL));
     while (ok)
     {
         int validChoice = 0;

@@ -3,6 +3,8 @@
     "*.yrf": "json",
     "*.rpx": "xml",
     "ctype.h": "c",
-    "conio.h": "c"
+    "conio.h": "c",
+    "locale.h": "c",
+    "windows.h": "c"
   }
 }

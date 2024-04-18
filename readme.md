@@ -6,7 +6,7 @@ A collection of games written in C using raylib library. It includes games of al
 for compiling your code (for example test.c) run
 for windows
 ```
-gcc pong.c -o pong -L./raylib-5.0_win64_mingw-w64/lib -lraylib -lopengl32 -lgdi32 -lwinmm
+gcc games/test.c -o test -L./raylib-5.0_win64_mingw-w64/lib -lraylib -lopengl32 -lgdi32 -lwinmm
 ```
 
 for linux 
