@@ -13,7 +13,7 @@ typedef struct
     int isGraphics;
 } menu_item;
 
-#define NUM_GAMES 7
+#define NUM_GAMES 8
 
 #define RESET "\x1B[0m"
 #define BOLD "\x1B[1m"
@@ -93,7 +93,9 @@ void showMenu()
                             "rockpaper.exe", "Priyanshu", 0};
     menu_item apple = {"Catch The Apple",
                        "apple.exe", "Korak Basu", 1};
-    menu_item menuitem[NUM_GAMES] = {pong, breakout, snake_graphic, apple, tictactoe, snake_terminal, rock_paper};
+    menu_item hangman = {"Hangman",
+                         "hangman.exe", "Anish and Sandeep", 0};
+    menu_item menuitem[NUM_GAMES] = {pong, breakout, snake_graphic, apple, tictactoe, snake_terminal, rock_paper, hangman};
     char key, key2;
     int currentlySelectedItem = 1;
     while (1)

@@ -92,6 +92,10 @@ void input()
             flag = 4;
             break;
         }
+        case 'x':
+        {
+            exit(0);
+        }
         }
     }
 }

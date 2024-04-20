@@ -7,5 +7,5 @@ gcc games/tictactoe.c -o dist/tictactoe -L./raylib-5.0_win64_mingw-w64/lib -lray
 gcc games/apple.c -o dist/apple -L./raylib-5.0_win64_mingw-w64/lib -lraylib -lopengl32 -lgdi32 -lwinmm
 gcc games/snake_terminal.c -o dist/snake_t
 gcc games/rock_paper.c -o dist/rockpaper
-
+gcc games/hangman.c -o dist/hangman
 pause
